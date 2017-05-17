@@ -46,23 +46,29 @@ class LinkedList {
     }
 
     insertAt(index, data) {
-        var insertEl = this._tail,
-            copy,
-            newNode,
-            i;
+        if(index == 0 && this.length == 0){
+            this.append(data);
+            return this;
+        }else{
+            var insertEl = this._tail,
+                copy,
+                newNode,
+                i;
 
-     newNode = new Node(this._tail.data, this._tail, null);
-     this._tail.next = newNode;
-     this._tail = newNode;
-     this.length++;
+            newNode = new Node(this._tail.data, this._tail, null);
+            this._tail.next = newNode;
+            this._tail = newNode;
+            this.length++;
 
-         for(i = this.length - 1; i > index + 1; i--){
-            insertEl.data = insertEl.prev.data;
-        insertEl = insertEl.prev;
-         };
+                for(i = this.length - 1; i > index + 1; i--){
+                   insertEl.data = insertEl.prev.data;
+                   insertEl = insertEl.prev;
+                };
 
-     insertEl.data = data;
-     return this;
+            insertEl.data = data;
+            return this;
+        }
+
     }
 
     isEmpty() {
@@ -73,17 +79,22 @@ class LinkedList {
      var deletedNode,
          deletedNext;
 
-         while(this.length != 1){
-         	deletedNode = this._head;
-         	deletedNext = this._head.next;
-         	this._head = deletedNext;
-         	deletedNext.prev = null;
-         	this.length--;
-         }
+    if(this.length != 0){
+        while(this.length != 1){
+            deletedNode = this._head;
+            deletedNext = this._head.next;
+            this._head = deletedNext;
+            deletedNext.prev = null;
+            this.length--;
+        }
 
-         this._head.data = null;
-         this._tail.data = null;
-         this.length = 0;
+        this._head.data = null;
+        this._tail.data = null;
+        this.length = 0;
+        return this;
+    }else{
+        return this;
+    }
     }
 
     deleteAt(index) {
@@ -96,7 +107,11 @@ class LinkedList {
          deletedNode = this._head;
          deletedNext = this._head.next;
          this._head = deletedNext;
-         deletedNext.prev = null;
+         if(deletedNext){
+            deletedNext.prev = null;
+         }else{
+            this._tail = null;
+         }
          this.length--;
      };
 
